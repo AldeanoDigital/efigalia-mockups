@@ -95,7 +95,7 @@
           <label class="block text-sm font-medium text-zinc-700 mb-1.5">Contraseña</label>
           <input type="password" value="••••••••" class="w-full px-3.5 py-2.5 rounded-lg border border-zinc-300 focus:border-eg-green focus:ring-2 focus:ring-eg-green-100 outline-none transition" />
         </div>
-        <button type="button" onclick="enterApp(); return false;" class="w-full bg-eg-green hover:bg-eg-green-500 text-white font-medium py-2.5 rounded-lg transition shadow-sm">
+        <button type="button" id="btn-login-submit" class="w-full bg-eg-green hover:bg-eg-green-500 text-white font-medium py-2.5 rounded-lg transition shadow-sm">
           Entrar
         </button>
         <div class="text-center pt-2">
@@ -214,7 +214,7 @@
 
     <!-- Sidebar footer -->
     <div class="border-t border-zinc-200 p-3">
-      <button onclick="logout()" class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-50 rounded-lg transition">
+      <button type="button" id="btn-logout" class="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-50 rounded-lg transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
         Cerrar sesión
       </button>
@@ -234,7 +234,7 @@
         <!-- Role switcher -->
         <div class="flex items-center gap-2 bg-zinc-100 rounded-lg p-1">
           <span class="text-xs text-zinc-500 pl-2">Rol:</span>
-          <select id="role-switcher" onchange="changeRole(this.value)" class="bg-white border border-zinc-200 rounded-md px-2 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-eg-green-100">
+          <select id="role-switcher" class="bg-white border border-zinc-200 rounded-md px-2 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-eg-green-100">
             <option value="admin">👑 Admin</option>
             <option value="coordinador_obra">🎯 Coordinador obra</option>
             <option value="instalador">👷 Instalador</option>
@@ -1302,7 +1302,48 @@
 
   // Init
   window.addEventListener('hashchange', showScreen);
-  window.addEventListener('DOMContentLoaded', () => {
+
+  function init() {
+    console.log('[mockup] init starting');
+
+    // Wire up listeners (más robusto que onclick inline)
+    const btnLogin = document.getElementById('btn-login-submit');
+    if (btnLogin) {
+      btnLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('[mockup] btn-login-submit clicked');
+        enterApp();
+      });
+      console.log('[mockup] btn-login-submit listener wired');
+    } else {
+      console.error('[mockup] btn-login-submit NOT FOUND');
+    }
+
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', function(e) {
+        e.preventDefault();
+        logout();
+      });
+    }
+
+    const roleSwitcher = document.getElementById('role-switcher');
+    if (roleSwitcher) {
+      roleSwitcher.addEventListener('change', function(e) {
+        changeRole(e.target.value);
+      });
+    }
+
+    // También: si alguien intenta usar Enter en el form de login
+    document.querySelectorAll('#screen-login input').forEach(function(input) {
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          enterApp();
+        }
+      });
+    });
+
     // Start at login by default
     if (!location.hash || location.hash === '#login') {
       document.body.classList.add('login-mode');
@@ -1310,7 +1351,21 @@
       changeRole(currentRole);
       showScreen();
     }
-  });
+
+    console.log('[mockup] init complete');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    // Si el script se carga después de DOMContentLoaded, ejecuta directamente
+    init();
+  }
+
+  // Exponer en window por si onclick inline residual los necesita (compat)
+  window.enterApp = enterApp;
+  window.logout = logout;
+  window.changeRole = changeRole;
 </script>
 
 </body>
