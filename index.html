@@ -55,8 +55,13 @@
 
 <style>
   body { font-family: 'Inter', system-ui, sans-serif; }
-  .screen { display: none; }
-  .screen.active { display: block; }
+  /* !important porque las utilities de Tailwind (.flex, .block, etc.) tienen
+     la misma specificity que .screen y se aplican después al cargar. */
+  .screen { display: none !important; }
+  .screen.active { display: block !important; }
+  /* Login es full-screen flex (centrado): regla específica con !important. */
+  body.login-mode .app-shell { display: none !important; }
+  body.login-mode #screen-login { display: flex !important; }
   .nav-item.active {
     background-color: rgb(243 250 236);
     color: rgb(84 135 47);
@@ -68,9 +73,6 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
-  /* Hide app shell on login */
-  body.login-mode .app-shell { display: none; }
-  body.login-mode #screen-login { display: block; }
 </style>
 </head>
 
