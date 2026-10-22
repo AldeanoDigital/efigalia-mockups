@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mockup — repostaje en el depósito de la nave (móvil) v2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --verde: #8BC463; --navy: #0e2540; --borde: #e5e7eb; --muted: #6b7280; --dimmed: #9ca3af;
+    --primary: #6ba03f; --primary-bg: #f0f7e8; --warning: #d97706; --warning-bg: #fef3c7;
+    --error: #dc2626; --error-bg: #fee2e2; --success: #16a34a; --success-bg: #dcfce7; --info: #0284c7; --info-bg: #e0f2fe;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef0f3; padding: 26px 18px 50px; color: #111827; }
+  h1 { font-size: 19px; color: var(--navy); text-align: center; margin-bottom: 4px; }
+  p.sub { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .reglas { max-width: 900px; margin: 0 auto 26px; background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 13px 16px; font-size: 13px; line-height: 1.65; }
+  .reglas b { color: var(--navy); }
+  h2.paso { font-size: 14.5px; color: var(--navy); max-width: 1180px; margin: 30px auto 10px; border-bottom: 2px solid var(--verde); padding-bottom: 5px; }
+  p.nota { max-width: 1180px; margin: 10px auto 14px; font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+  p.nota strong { color: var(--navy); }
+  .fila { max-width: 1180px; margin: 0 auto; display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+
+  .movil { width: 360px; background: #fff; border: 1px solid var(--borde); border-radius: 26px; box-shadow: 0 8px 22px rgb(0 0 0 / .09); overflow: hidden; position: relative; }
+  .m-header { background: linear-gradient(100deg, #cfe9b8, #b7d9f4); padding: 19px 15px 13px; display: flex; align-items: center; gap: 10px; }
+  .m-header h3 { font-size: 16.5px; font-weight: 800; color: var(--navy); }
+  .m-body { padding: 12px 13px 16px; }
+  .etiq { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 700; margin: 12px 0 6px; }
+
+  .contador { border: 2px solid var(--navy); border-radius: 14px; padding: 14px; text-align: center; background: #f8fafc; }
+  .contador .lbl { font-size: 12px; color: var(--muted); }
+  .contador .val { font-size: 36px; font-weight: 800; letter-spacing: .04em; font-family: "SF Mono", ui-monospace, Menlo, monospace; color: var(--navy); }
+  .contador .val small { font-size: 16px; color: var(--muted); font-weight: 600; font-family: inherit; }
+  .contador.nuevo { border-color: var(--primary); background: var(--primary-bg); }
+  .contador.nuevo .val { color: #3f6b1f; }
+  .dos { display: flex; gap: 8px; margin-top: 10px; }
+  .btn { flex: 1; border-radius: 12px; padding: 13px 8px; text-align: center; font-size: 14px; font-weight: 800; }
+  .btn.ok { background: var(--primary); color: #fff; }
+  .btn.no { background: #fff; border: 1.5px solid var(--warning); color: #92400e; }
+  .btn.sec { background: #fff; border: 1px solid var(--borde); color: var(--navy); }
+  .btn-block { margin-top: 12px; background: var(--primary); color: #fff; border-radius: 12px; padding: 14px; text-align: center; font-size: 15px; font-weight: 800; }
+
+  .valor { background: #f6f7f9; border-radius: 12px; padding: 12px; text-align: center; }
+  .valor .lbl { font-size: 11px; color: var(--muted); }
+  .valor .val { font-size: 32px; font-weight: 800; }
+  .valor .val small { font-size: 15px; color: var(--muted); font-weight: 600; }
+  .teclado { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+  .tecla { background: #f6f7f9; border-radius: 10px; padding: 11px 0; text-align: center; font-size: 19px; font-weight: 700; }
+  .tecla.aux { color: var(--muted); font-size: 17px; }
+
+  .veh { display: flex; align-items: center; gap: 10px; border: 1px solid var(--borde); border-radius: 12px; padding: 10px 11px; margin-bottom: 7px; }
+  .veh.sel { border: 2px solid var(--primary); background: var(--primary-bg); }
+  .veh .mat { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-weight: 800; font-size: 14.5px; }
+  .veh .sub { font-size: 12px; color: var(--muted); }
+  .veh .chk { margin-left: auto; color: var(--primary); font-size: 18px; font-weight: 800; }
+  .badge { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 11px; font-weight: 700; background: var(--info-bg); color: #075985; }
+  .campo { border: 1px solid var(--borde); border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; }
+  .campo .v { font-size: 20px; font-weight: 800; }
+  .ayuda { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .resumen { border: 1px solid var(--borde); border-radius: 12px; overflow: hidden; margin-top: 10px; }
+  .resumen div { display: flex; justify-content: space-between; padding: 8px 12px; font-size: 13.5px; border-bottom: 1px solid #f3f4f6; }
+  .resumen div:last-child { border-bottom: 0; }
+  .resumen span:first-child { color: var(--muted); }
+  .resumen b { color: var(--navy); }
+  .aviso { display: flex; gap: 9px; align-items: flex-start; border-radius: 10px; padding: 10px 12px; font-size: 12.5px; margin-top: 10px; line-height: 1.45; }
+  .aviso.info { background: var(--info-bg); border: 1px solid #bae0f5; color: #075985; }
+  .aviso.warn { background: var(--warning-bg); border: 1px solid #fcd9a0; color: #92400e; }
+  .aviso.ok { background: var(--success-bg); border: 1px solid #bbe5c8; color: #166534; }
+
+  /* barra inferior + menú Crear */
+  .tab { display: flex; justify-content: space-around; align-items: center; border-top: 1px solid var(--borde); padding: 8px 6px 12px; font-size: 10.5px; color: var(--muted); }
+  .tab span { text-align: center; }
+  .fab { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #a7d77f, #7cb9ec); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--navy); margin-top: -26px; box-shadow: 0 4px 12px rgb(0 0 0 / .15); }
+  .velo { background: rgb(15 23 42 / .35); padding: 120px 12px 12px; }
+  .crear { background: #fff; border-radius: 18px; padding: 12px; }
+  .crear h4 { font-size: 15px; color: var(--navy); margin: 2px 4px 8px; }
+  .op { display: flex; gap: 11px; align-items: center; padding: 9px 6px; border-radius: 12px; }
+  .op.nueva { background: var(--primary-bg); outline: 2px solid var(--primary); }
+  .op .ic { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .op .t { font-size: 14px; font-weight: 700; }
+  .op .d { font-size: 12px; color: var(--muted); }
+  .nuevo-tag { font-size: 10px; font-weight: 800; color: #fff; background: var(--primary); border-radius: 999px; padding: 1px 7px; margin-left: 6px; vertical-align: 2px; }
+  .lista { border: 1px solid var(--borde); border-radius: 12px; overflow: hidden; }
+  .fila-a { padding: 10px 11px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+  .fila-a:last-child { border-bottom: 0; }
+  .fila-a .tit { font-weight: 700; }
+  .fila-a .sub { font-size: 11.5px; color: var(--muted); }
+  .fila-a .der { margin-left: auto; text-align: right; font-weight: 800; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--borde); border-radius: 999px; padding: 6px 11px; font-size: 12.5px; font-weight: 600; color: #374151; }
+  .chip.on { border: 2px solid #7c3aed; background: #f3e8ff; color: #5b21b6; }
+  .aviso.reg { background: #f3e8ff; border: 1px solid #ddd0fb; color: #5b21b6; }
+  .btn.reg { background: #7c3aed; color: #fff; }
+  .pregunta { max-width: 1180px; margin: 12px auto; background: #fff; border-left: 4px solid var(--warning); border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.55; }
+  .pregunta b { color: #92400e; }
+</style>
+</head>
+<body>
+
+<h1>Repostaje en el depósito de la nave — móvil · v2</h1>
+<p class="sub">El trabajador anota cada repostaje del surtidor interno: litros, furgoneta y km. Diego regulariza el contador cuando hay un descuadre.</p>
+
+<div class="reglas">
+  <b>La idea:</b> el surtidor de la nave tiene un <b>contador total</b> que nunca vuelve a cero. La app lleva la cuenta de
+  ese contador: el último valor anotado + lo que se reposta. Al repostar, el trabajador <b>comprueba que el contador del
+  surtidor coincide con el de la app</b>, teclea los <b>litros</b>, y la app le enseña el <b>contador nuevo</b> para que vuelva a
+  mirar el surtidor y confirme que cuadra. Elige la <b>furgoneta</b> (por defecto, la que tiene asignada hoy) y sus <b>km</b>.<br><br>
+  <b>No es un gasto:</b> no lleva foto, ni ticket, ni importe, ni pasa por validación. <b>Ni precio ni llenados del proveedor:</b>
+  el coste del combustible ya lo controla administración con la factura del proveedor (decisión del cliente, 22-10). Aquí se
+  controlan los <b>litros</b>: cuántos ha echado cada furgoneta y que el contador del surtidor cuadre.
+</div>
+
+<h2 class="paso">1 · Dónde se entra: el botón «+» de la barra</h2>
+<p class="nota">Una opción nueva en el menú <strong>Crear</strong>, junto a «Nuevo gasto», que sigue siendo para la gasolinera de fuera. Se ofrece por
+permiso (<strong>movil.crear.repostaje_interno</strong>), así que en Configuración → Roles se decide quién la ve.</p>
+<div class="fila">
+  <div class="movil">
+    <div class="velo">
+      <div class="crear">
+        <h4>Crear</h4>
+        <div class="op"><span class="ic" style="background:#e0f2fe;color:#0284c7;">📝</span><span><span class="t" style="display:block;">Nuevo parte de trabajo</span><span class="d">Lo que has hecho hoy</span></span></div>
+        <div class="op"><span class="ic" style="background:var(--primary-bg);color:var(--primary);">€</span><span><span class="t" style="display:block;">Nuevo gasto</span><span class="d">Gasolinera, dieta, material…</span></span></div>
+        <div class="op nueva"><span class="ic" style="background:#fef3c7;color:#b45309;">⛽</span><span><span class="t" style="display:block;">Repostar en la nave <span class="nuevo-tag">NUEVO</span></span><span class="d">Gasoil del depósito de la empresa</span></span></div>
+        <div class="op"><span class="ic" style="background:#f3e8ff;color:#7e22ce;">📦</span><span><span class="t" style="display:block;">Solicitar material</span><span class="d">Para una obra</span></span></div>
+      </div>
+    </div>
+    <div class="tab"><span>🏠<br>Inicio</span><span>✅<br>Tareas</span><span class="fab">✕</span><span>€<br>Gastos</span><span>☰<br>Más</span></div>
+  </div>
+</div>
+
+<h2 class="paso">2 · Repostar: comprobar el surtidor, los litros y la furgoneta</h2>
+<p class="nota"><strong>Paso 1:</strong> lo primero, mirar el surtidor. Si coincide, sigue; si no, va a «No coincide» (apartado 3).
+<strong>Paso 2:</strong> teclado grande (el mismo de los gastos) con los litros; debajo, en vivo, el contador que debería marcar ahora el surtidor.
+<strong>Paso 3:</strong> la furgoneta de hoy ya viene elegida; los km piden como mínimo la última lectura, como en los repostajes de gasolinera.</p>
+<div class="fila">
+
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>Repostar en la nave</h3></div>
+    <div class="m-body">
+      <div class="etiq" style="margin-top:4px;">Paso 1 de 3 · Comprueba el surtidor</div>
+      <div class="contador">
+        <div class="lbl">El contador total del surtidor debería marcar</div>
+        <div class="val">48.312,5 <small>L</small></div>
+      </div>
+      <p class="ayuda" style="text-align:center;margin-top:8px;">Mira el contador <b>total</b> del surtidor (el que no se pone a cero) antes de repostar.</p>
+      <div class="dos">
+        <div class="btn no">No coincide</div>
+        <div class="btn ok">Coincide ✓</div>
+      </div>
+      <div class="aviso info"><span>ℹ</span><span>Último repostaje: <b>ayer, 18:05</b> · 2458 KYR · 41,00 L.</span></div>
+    </div>
+  </div>
+
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>Repostar en la nave</h3></div>
+    <div class="m-body">
+      <div class="etiq" style="margin-top:4px;">Paso 2 de 3 · ¿Cuántos litros has echado?</div>
+      <div class="valor"><div class="lbl">Litros</div><div class="val">62,40 <small>L</small></div></div>
+      <div class="teclado">
+        <div class="tecla">1</div><div class="tecla">2</div><div class="tecla">3</div>
+        <div class="tecla">4</div><div class="tecla">5</div><div class="tecla">6</div>
+        <div class="tecla">7</div><div class="tecla">8</div><div class="tecla">9</div>
+        <div class="tecla aux">,</div><div class="tecla">0</div><div class="tecla aux">⌫</div>
+      </div>
+      <div class="contador nuevo" style="margin-top:10px;">
+        <div class="lbl">Ahora el surtidor tiene que marcar</div>
+        <div class="val">48.374,9 <small>L</small></div>
+      </div>
+      <p class="ayuda" style="text-align:center;">48.312,5 + 62,4 · Míralo: si no cuadra, revisa los litros.</p>
+      <div class="btn-block">Cuadra, siguiente</div>
+    </div>
+  </div>
+
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>Repostar en la nave</h3></div>
+    <div class="m-body">
+      <div class="etiq" style="margin-top:4px;">Paso 3 de 3 · ¿Para qué furgoneta?</div>
+      <div class="veh sel"><span style="font-size:20px;">🚐</span><span><span class="mat">8843 MRJ</span> <span class="badge">La tuya hoy</span><br><span class="sub">Mercedes · última lectura 128.410 km</span></span><span class="chk">✓</span></div>
+      <div class="veh"><span style="font-size:20px;">🚐</span><span><span class="mat">2458 KYR</span><br><span class="sub">Ford · 96.220 km</span></span></div>
+      <p class="ayuda">Otra furgoneta · <u>ver las 6</u></p>
+      <div class="etiq">Km de la furgoneta ahora</div>
+      <div class="campo"><span class="v">128.655 km</span><span style="color:var(--muted);">⌨</span></div>
+      <p class="ayuda">Mín. 128.410 km (última lectura)</p>
+      <div class="resumen">
+        <div><span>Litros</span><b>62,40 L</b></div>
+        <div><span>Contador del surtidor</span><b>48.312,5 → 48.374,9 L</b></div>
+        <div><span>Recorridos desde el último repostaje</span><b>245 km</b></div>
+      </div>
+      <div class="btn-block">Guardar repostaje</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">3 · Si el contador no coincide</h2>
+<p class="nota">El trabajador teclea lo que <strong>marca de verdad</strong> el surtidor (y puede hacer una foto). Desde ese número sigue el repostaje,
+y a oficina le llega un aviso con la diferencia para que lo revise. <strong>No bloquea</strong>: repostar no puede depender de que alguien de oficina conteste.</p>
+<div class="fila">
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>El contador no coincide</h3></div>
+    <div class="m-body">
+      <p style="font-size:13px;color:var(--muted);">La app esperaba <b style="color:var(--navy);">48.312,5 L</b></p>
+      <div class="etiq">¿Qué marca el contador total del surtidor?</div>
+      <div class="valor"><div class="lbl">Marca</div><div class="val">48.340,0 <small>L</small></div></div>
+      <div class="teclado">
+        <div class="tecla">1</div><div class="tecla">2</div><div class="tecla">3</div>
+        <div class="tecla">4</div><div class="tecla">5</div><div class="tecla">6</div>
+        <div class="tecla">7</div><div class="tecla">8</div><div class="tecla">9</div>
+        <div class="tecla aux">,</div><div class="tecla">0</div><div class="tecla aux">⌫</div>
+      </div>
+      <div class="aviso warn"><span>⚠</span><span>Faltan por anotar <b>27,5 L</b>: alguien repostó sin apuntarlo. Se avisa a oficina; tú sigue con tu repostaje.</span></div>
+      <div style="border:1px dashed #c7ccd4;border-radius:12px;padding:10px;text-align:center;font-size:13px;color:var(--muted);margin-top:10px;">📷 Foto del contador (opcional)</div>
+      <div class="btn-block">Seguir con mi repostaje</div>
+    </div>
+  </div>
+
+  <div class="movil">
+    <div class="m-header"><h3>Repostaje guardado</h3></div>
+    <div class="m-body">
+      <div class="aviso ok" style="margin-top:2px;"><span>✔</span><span><b>62,40 L para la 8843 MRJ</b> a 128.655 km. El contador queda en <b>48.374,9 L</b>.</span></div>
+      <div class="etiq">Tus últimos repostajes en la nave</div>
+      <div class="lista">
+        <div class="fila-a"><span>⛽</span><span><span class="tit" style="display:block;">8843 MRJ · 62,40 L</span><span class="sub">Hoy · 128.655 km</span></span></div>
+        <div class="fila-a"><span>⛽</span><span><span class="tit" style="display:block;">8843 MRJ · 58,10 L</span><span class="sub">15 oct · 128.410 km</span></span></div>
+        <div class="fila-a"><span>⛽</span><span><span class="tit" style="display:block;">2458 KYR · 41,00 L</span><span class="sub">9 oct · 96.220 km</span></span></div>
+      </div>
+      <p class="ayuda" style="margin-top:8px;">Si te has equivocado, puedes corregir tu último repostaje mientras nadie haya repostado después.</p>
+      <div class="dos"><div class="btn sec">Corregir</div><div class="btn ok">Hecho</div></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">4 · Oficina, también desde el móvil: los repostajes y los descuadres</h2>
+<p class="nota">En el hub <strong>Más</strong>, para quien tenga el permiso <strong>deposito.view</strong>: la lista de repostajes en la nave y los descuadres que han
+avisado los trabajadores, con el mismo contenido que la pantalla de escritorio (abajo, en el otro boceto).</p>
+<div class="fila">
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>Más</h3></div>
+    <div class="m-body">
+      <div class="etiq" style="margin-top:2px;">Material</div>
+      <div class="lista">
+        <div class="fila-a"><span>📦</span><span><span class="tit" style="display:block;">Solicitudes</span><span class="sub">Material pedido para obras</span></span></div>
+        <div class="fila-a"><span>🚐</span><span><span class="tit" style="display:block;">Stock de mi furgoneta</span><span class="sub">Lo que llevas encima</span></span></div>
+      </div>
+      <div class="etiq">Depósito de la nave <span class="nuevo-tag">NUEVO</span></div>
+      <div class="lista">
+        <div class="fila-a" style="background:var(--primary-bg);"><span>⛽</span><span><span class="tit" style="display:block;">Repostajes en la nave</span><span class="sub">Contador 48.374,9 L · 1.120 L este mes</span></span><span class="der" style="color:var(--warning);font-size:12px;">1 descuadre</span></div>
+        <div class="fila-a"><span>🔧</span><span><span class="tit" style="display:block;">Regularizar el contador</span><span class="sub">Reparaciones, purgas, lectura inicial</span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">5 · Diego: regularizar el contador</h2>
+<p class="nota">Para cuando el contador se mueve sin que nadie reposte una furgoneta: <strong>una reparación de la bomba</strong> que hay que poner en marcha para que se llene el circuito,
+una purga, una prueba… y para <strong>el primer día</strong> (la lectura inicial). Diego anota lo que marca ahora el surtidor y el motivo; los litros de la diferencia quedan
+registrados con su motivo, <strong>sin furgoneta</strong>, así que no cambian el consumo de ninguna. Solo con el permiso <strong>deposito.regularizar</strong> (Diego y administración).</p>
+<div class="fila">
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>Regularizar el contador</h3></div>
+    <div class="m-body">
+      <p style="font-size:13px;color:var(--muted);">La app lleva el contador en <b style="color:var(--navy);">48.374,9 L</b></p>
+      <div class="etiq">¿Qué marca ahora el contador total?</div>
+      <div class="valor"><div class="lbl">Marca</div><div class="val">48.392,9 <small>L</small></div></div>
+      <div class="aviso reg"><span>🔧</span><span><b>+18,0 L</b> que no son de ninguna furgoneta.</span></div>
+      <div class="etiq">Motivo</div>
+      <div class="chips">
+        <span class="chip on">Reparación o purga de la bomba</span>
+        <span class="chip">Lectura inicial</span>
+        <span class="chip">Error de lectura</span>
+        <span class="chip">Otro</span>
+      </div>
+      <div class="etiq">Nota</div>
+      <div class="campo" style="font-size:13.5px;color:#374151;">Cambio de la bomba; se puso en marcha para llenar el circuito</div>
+      <div style="border:1px dashed #c7ccd4;border-radius:12px;padding:10px;text-align:center;font-size:13px;color:var(--muted);margin-top:10px;">📷 Foto del contador (opcional)</div>
+      <div class="btn-block" style="background:#7c3aed;">Guardar regularización</div>
+    </div>
+  </div>
+
+  <div class="movil">
+    <div class="m-header"><span style="font-size:17px;color:var(--navy);">←</span><h3>Descuadre del 22 oct</h3></div>
+    <div class="m-body">
+      <div class="aviso warn" style="margin-top:2px;"><span>⚠</span><span><b>Cecilio M.</b> vio el surtidor en <b>48.340,0 L</b>; la app esperaba 48.312,5 L. <b>Faltan 27,5 L</b> por anotar.</span></div>
+      <div class="etiq">¿Qué fueron esos litros?</div>
+      <div class="veh sel"><span style="font-size:18px;">⛽</span><span><span class="tit" style="font-weight:700;">Un repostaje sin anotar</span><br><span class="sub">Se asignan a una furgoneta</span></span><span class="chk">✓</span></div>
+      <div class="veh"><span style="font-size:18px;">🔧</span><span><span class="tit" style="font-weight:700;">Una reparación o purga</span><br><span class="sub">Quedan sin furgoneta, con su motivo</span></span></div>
+      <div class="veh"><span style="font-size:18px;">✎</span><span><span class="tit" style="font-weight:700;">Un error de lectura</span><br><span class="sub">El contador se corrige y ya</span></span></div>
+      <div class="etiq">Furgoneta</div>
+      <div class="campo"><span style="font-size:15px;font-weight:700;">9437 MBT · Renault</span><span style="color:var(--muted);">▾</span></div>
+      <p class="ayuda">Si sabes los km, añádelos; si no, cuenta para los litros pero no para el consumo.</p>
+      <div class="btn-block">Resolver descuadre</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">Lo que hay que decidir con el cliente</h2>
+<div class="pregunta"><b>1. Si el contador no coincide,</b> ¿le dejamos seguir (anotando la lectura real, con aviso a Diego, como en el boceto) o no deja repostar hasta que Diego lo resuelva? Recomiendo dejarle seguir.</div>
+<div class="pregunta"><b>2. ¿Puede repostar cualquier furgoneta de la empresa</b> o solo la que tiene asignada ese día? En el boceto viene elegida la de hoy y puede cambiarla.</div>
+<div class="pregunta"><b>3. ¿Quién ve los repostajes y los descuadres</b> además de Diego y administración (que también regularizan)?</div>
+<div class="pregunta"><b>4. Los motivos de la regularización:</b> ¿valen «Reparación o purga de la bomba», «Lectura inicial», «Error de lectura» y «Otro», o añadís alguno?</div>
+
+</body>
+</html>
