@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mockup — combustible por furgoneta y depósito de la nave (escritorio)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --verde: #8BC463; --navy: #0e2540; --borde: #e5e7eb; --muted: #6b7280; --dimmed: #9ca3af;
+    --primary: #6ba03f; --primary-bg: #f0f7e8; --warning: #d97706; --warning-bg: #fef3c7;
+    --error: #dc2626; --error-bg: #fee2e2; --success: #16a34a; --success-bg: #dcfce7; --info: #0284c7; --info-bg: #e0f2fe;
+    --ext: #0284c7; --int: #b45309;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef0f3; padding: 26px 18px 50px; color: #111827; }
+  h1 { font-size: 19px; color: var(--navy); text-align: center; margin-bottom: 4px; }
+  p.sub { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  .reglas { max-width: 1000px; margin: 0 auto 22px; background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 13px 16px; font-size: 13px; line-height: 1.65; }
+  .reglas b { color: var(--navy); }
+  h2.paso { font-size: 14.5px; color: var(--navy); max-width: 1180px; margin: 30px auto 10px; border-bottom: 2px solid var(--verde); padding-bottom: 5px; }
+  p.nota { max-width: 1180px; margin: 10px auto 14px; font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+  p.nota strong { color: var(--navy); }
+
+  .pantalla { max-width: 1180px; margin: 0 auto; background: #fff; border: 1px solid var(--borde); border-radius: 14px; box-shadow: 0 8px 22px rgb(0 0 0 / .07); overflow: hidden; display: flex; }
+  .side { width: 200px; background: #f8fafc; border-right: 1px solid var(--borde); padding: 14px 10px; font-size: 13px; color: #374151; }
+  .side .g { font-size: 11px; text-transform: uppercase; color: var(--dimmed); font-weight: 700; margin: 12px 8px 4px; }
+  .side .i { padding: 6px 8px; border-radius: 8px; }
+  .side .i.on { background: var(--primary-bg); color: #3f6b1f; font-weight: 700; }
+  .main { flex: 1; padding: 16px 20px 22px; min-width: 0; }
+  .cab { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .cab .ic { width: 40px; height: 40px; border-radius: 10px; background: var(--primary-bg); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .cab h3 { font-size: 20px; color: var(--navy); font-family: "SF Mono", ui-monospace, Menlo, monospace; }
+  .cab .s { font-size: 13px; color: var(--muted); }
+  .cab .acc { margin-left: auto; display: flex; gap: 8px; }
+  .boton { border: 1px solid var(--borde); border-radius: 9px; padding: 7px 12px; font-size: 13px; font-weight: 600; background: #fff; }
+  .boton.p { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .kpi { border: 1px solid var(--borde); border-radius: 12px; padding: 10px 12px; }
+  .kpi .l { font-size: 11.5px; color: var(--muted); }
+  .kpi .v { font-size: 22px; font-weight: 800; color: var(--navy); margin-top: 2px; }
+  .kpi .d { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .kpi.nuevo { border: 2px solid var(--primary); }
+  .reparto { border: 1px solid var(--borde); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+  .reparto h4, .bloque h4 { font-size: 13.5px; color: var(--navy); margin-bottom: 8px; }
+  .barra { display: flex; height: 22px; border-radius: 7px; overflow: hidden; font-size: 11px; font-weight: 700; color: #fff; }
+  .barra .e { background: var(--ext); display: flex; align-items: center; padding-left: 8px; }
+  .barra .n { background: var(--int); display: flex; align-items: center; padding-left: 8px; }
+  .leyenda { display: flex; gap: 22px; margin-top: 8px; font-size: 12.5px; }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { white-space: nowrap; text-align: left; font-size: 11.5px; color: var(--muted); font-weight: 600; padding: 7px 8px; border-bottom: 1px solid var(--borde); background: #f9fafb; }
+  td { padding: 8px 7px; border-bottom: 1px solid #f3f4f6; white-space: nowrap; }
+  td[colspan] { white-space: normal; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+  th.n { text-align: right; }
+  .orig { white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 2px 9px; font-size: 11.5px; font-weight: 700; }
+  .orig.e { background: var(--info-bg); color: #075985; }
+  .orig.n { background: #fff4e5; color: #92400e; }
+  .bloque { border: 1px solid var(--borde); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+  .grafica { height: 120px; display: flex; align-items: flex-end; gap: 14px; padding: 6px 4px 0; border-bottom: 1px solid var(--borde); }
+  .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; font-size: 10.5px; color: var(--muted); }
+  .col .b { width: 26px; display: flex; flex-direction: column; border-radius: 4px 4px 0 0; overflow: hidden; }
+  .dosc { display: grid; grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr); gap: 14px; }
+  .pantalla { max-width: 1320px; }
+  .alerta { display: flex; gap: 9px; align-items: flex-start; background: var(--warning-bg); border: 1px solid #fcd9a0; color: #92400e; border-radius: 10px; padding: 10px 12px; font-size: 12.5px; margin-bottom: 12px; line-height: 1.45; }
+  .pregunta { max-width: 1180px; margin: 12px auto; background: #fff; border-left: 4px solid var(--warning); border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.55; }
+  .pregunta b { color: #92400e; }
+</style>
+</head>
+<body>
+
+<h1>Combustible por furgoneta y depósito de la nave — escritorio</h1>
+<p class="sub">Lo que ya hay en la ficha de cada furgoneta, ampliado con lo que se reposta en la nave.</p>
+
+<div class="reglas">
+  <b>Lo que cambia:</b> hoy la ficha de cada furgoneta calcula el consumo con los repostajes de gasolinera (los gastos de repostaje,
+  que ya guardan litros, km e importe). Desde ahora suma también los <b>repostajes en la nave</b>, así que el consumo L/100 km sale de
+  <b>todo</b> lo que ha entrado en el depósito de la furgoneta, venga de donde venga. Los repostajes de la nave van <b>sin precio</b>:
+  el coste lo controla administración con la factura del proveedor (decisión del cliente, 22-10); los de gasolinera siguen con su ticket.<br><br>
+  <b>El depósito</b> tiene su propia pantalla (Furgones → Depósito de la nave): el contador del surtidor, los descuadres que avisaron
+  los trabajadores y todos los repostajes, por furgoneta y por trabajador.
+</div>
+
+<h2 class="paso">1 · La ficha de una furgoneta: externo, interno y cada repostaje</h2>
+<p class="nota">Los <strong>cuatro indicadores</strong> de arriba ya existen; ahora cuentan también los litros de la nave.
+Debajo, el <strong>reparto gasolinera/nave</strong> del periodo, la gráfica mensual apilada y la tabla de <strong>todos</strong> los repostajes con su origen.</p>
+<div class="pantalla">
+  <div class="side">
+    <div class="g">Gestión</div><div class="i">Proyectos</div><div class="i">Gastos</div>
+    <div class="g">Flota</div><div class="i on">Furgones</div><div class="i">Depósito de la nave</div>
+  </div>
+  <div class="main">
+    <div class="cab">
+      <span class="ic">🚐</span>
+      <span><h3>8843 MRJ</h3><span class="s">Mercedes · responsable: Cecilio Martín</span></span>
+      <span class="acc"><span class="boton">Este año ▾</span></span>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Consumo medio</div><div class="v">10,8 L/100 km</div><div class="d">Gasolinera y nave juntas</div></div>
+      <div class="kpi"><div class="l">Último mes</div><div class="v">11,2 L/100 km</div><div class="d">octubre · +4 % sobre la media</div></div>
+      <div class="kpi"><div class="l">Km recorridos</div><div class="v">18.420 km</div><div class="d">Cuentakm: 128.655 km</div></div>
+      <div class="kpi"><div class="l">Total repostado</div><div class="v">1.989 L</div><div class="d">31 repostajes · 12 en gasolinera, 19 en la nave</div></div>
+    </div>
+
+    <div class="reparto">
+      <h4>Dónde ha repostado este año</h4>
+      <div class="barra"><span class="e" style="width:38%;">Gasolinera 38 %</span><span class="n" style="width:62%;">Nave 62 %</span></div>
+      <div class="leyenda">
+        <span><span class="dot" style="background:var(--ext);"></span><b>Gasolinera:</b> 756 L · 12 repostajes · 1.073 € en tickets</span>
+        <span><span class="dot" style="background:var(--int);"></span><b>Nave:</b> 1.233 L · 19 repostajes</span>
+      </div>
+    </div>
+
+    <div class="dosc">
+      <div class="bloque">
+        <h4>Todos los repostajes</h4>
+        <table>
+          <tr><th>Fecha</th><th>Dónde</th><th>Quién</th><th class="n">Cuentakm</th><th class="n">Recorridos</th><th class="n">Litros</th><th class="n">€/L</th><th class="n">Importe</th><th class="n">L/100 km</th></tr>
+          <tr><td>22 oct</td><td><span class="orig n">⛽ Nave</span></td><td>Cecilio M.</td><td class="n">128.655</td><td class="n">245</td><td class="n">62,40</td><td class="n" style="color:var(--dimmed);">—</td><td class="n" style="color:var(--dimmed);">—</td><td class="n">11,4</td></tr>
+          <tr><td>15 oct</td><td><span class="orig n">⛽ Nave</span></td><td>Cecilio M.</td><td class="n">128.410</td><td class="n">540</td><td class="n">58,10</td><td class="n" style="color:var(--dimmed);">—</td><td class="n" style="color:var(--dimmed);">—</td><td class="n">10,8</td></tr>
+          <tr><td>11 oct</td><td><span class="orig e">🧾 Gasolinera</span></td><td>Cecilio M.</td><td class="n">127.870</td><td class="n">488</td><td class="n">51,20</td><td class="n">1,429</td><td class="n">73,16 €</td><td class="n">10,5</td></tr>
+          <tr><td>3 oct</td><td><span class="orig n">⛽ Nave</span></td><td>Manuel R.</td><td class="n">127.382</td><td class="n">602</td><td class="n">66,00</td><td class="n" style="color:var(--dimmed);">—</td><td class="n" style="color:var(--dimmed);">—</td><td class="n">11,0</td></tr>
+          <tr><td>24 sep</td><td><span class="orig e">🧾 Gasolinera</span></td><td>Cecilio M.</td><td class="n">126.780</td><td class="n">455</td><td class="n">47,90</td><td class="n">1,409</td><td class="n">67,49 €</td><td class="n">10,5</td></tr>
+        </table>
+        <p style="font-size:12px;color:var(--muted);margin-top:8px;">Los de la nave van sin precio (lo controla administración con la factura). Pulsar una fila de gasolinera abre el gasto con su ticket; una de la nave, el repostaje (contador antes y después).</p>
+      </div>
+      <div class="bloque">
+        <h4>Litros por mes</h4>
+        <div class="grafica">
+          <div class="col"><div class="b"><span style="height:40px;background:var(--int);"></span><span style="height:30px;background:var(--ext);"></span></div>jun</div>
+          <div class="col"><div class="b"><span style="height:55px;background:var(--int);"></span><span style="height:20px;background:var(--ext);"></span></div>jul</div>
+          <div class="col"><div class="b"><span style="height:30px;background:var(--int);"></span><span style="height:45px;background:var(--ext);"></span></div>ago</div>
+          <div class="col"><div class="b"><span style="height:60px;background:var(--int);"></span><span style="height:25px;background:var(--ext);"></span></div>sep</div>
+          <div class="col"><div class="b"><span style="height:72px;background:var(--int);"></span><span style="height:28px;background:var(--ext);"></span></div>oct</div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:8px;">La línea de consumo (L/100 km) que ya existe sigue encima.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">2 · El depósito de la nave</h2>
+<p class="nota">Una pantalla nueva en <strong>Furgones → Depósito de la nave</strong> (permiso <strong>deposito.view</strong>). Arriba, el estado; en el centro, todos los repostajes
+(filtrables por furgoneta y por trabajador); a la derecha, lo que ha echado cada furgoneta este mes. «Ajustar contador» es para cuando oficina comprueba el
+surtidor y no cuadra: se anota la lectura real y desde ahí se sigue. <strong>Sin llenados ni precios:</strong> eso va por la factura del proveedor.</p>
+<div class="pantalla">
+  <div class="side">
+    <div class="g">Gestión</div><div class="i">Proyectos</div><div class="i">Gastos</div>
+    <div class="g">Flota</div><div class="i">Furgones</div><div class="i on">Depósito de la nave</div>
+  </div>
+  <div class="main">
+    <div class="cab">
+      <span class="ic">⛽</span>
+      <span><h3 style="font-family:inherit;">Depósito de la nave</h3><span class="s">Gasoil · surtidor con contador total</span></span>
+      <span class="acc"><span class="boton">Ajustar contador</span></span>
+    </div>
+    <div class="alerta"><span>⚠</span><span><b>1 descuadre sin revisar:</b> el 22 oct, Cecilio M. vio el surtidor en 48.340,0 L y la app esperaba 48.312,5 L. Faltan por anotar 27,5 L. <u>Revisar</u></span></div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Contador del surtidor</div><div class="v">48.374,9 L</div><div class="d">Último repostaje: hoy 9:42</div></div>
+      <div class="kpi"><div class="l">Repostado este mes</div><div class="v">1.120 L</div><div class="d">18 repostajes · 6 furgonetas</div></div>
+      <div class="kpi"><div class="l">Repostado este año</div><div class="v">9.840 L</div><div class="d">desde el arranque del contador</div></div>
+      <div class="kpi"><div class="l">Descuadres sin revisar</div><div class="v" style="color:#b45309;">1</div><div class="d">27,5 L sin anotar</div></div>
+    </div>
+    <div class="dosc">
+      <div class="bloque">
+        <h4>Repostajes en la nave <span style="font-weight:400;color:var(--muted);font-size:12px;">· Todas las furgonetas ▾ · Todos ▾</span></h4>
+        <table>
+          <tr><th>Fecha</th><th>Furgoneta</th><th>Quién</th><th class="n">Contador</th><th class="n">Litros</th><th class="n">Km</th></tr>
+          <tr><td>22 oct 9:42</td><td><b>8843 MRJ</b></td><td>Cecilio M.</td><td class="n">48.312,5 → 48.374,9</td><td class="n">62,40</td><td class="n">128.655</td></tr>
+          <tr style="background:var(--warning-bg);"><td colspan="6" style="font-size:12px;color:#92400e;">⚠ Antes de este repostaje el surtidor marcaba 48.340,0 L, no 48.312,5: 27,5 L sin anotar</td></tr>
+          <tr><td>21 oct 18:05</td><td><b>2458 KYR</b></td><td>Manuel R.</td><td class="n">48.271,5 → 48.312,5</td><td class="n">41,00</td><td class="n">96.220</td></tr>
+          <tr><td>21 oct 7:30</td><td><b>9437 MBT</b></td><td>Iván P.</td><td class="n">48.213,0 → 48.271,5</td><td class="n">58,50</td><td class="n">74.310</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="bloque">
+          <h4>Por furgoneta este mes</h4>
+          <table>
+            <tr><th>Furgoneta</th><th class="n">Nave</th><th class="n">Gasolinera</th></tr>
+            <tr><td>8843 MRJ</td><td class="n">186 L</td><td class="n">51 L</td></tr>
+            <tr><td>2458 KYR</td><td class="n">122 L</td><td class="n">0 L</td></tr>
+            <tr><td>9437 MBT</td><td class="n">175 L</td><td class="n">38 L</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">Lo que hay que decidir con el cliente</h2>
+<div class="pregunta"><b>4. Arranque:</b> el primer día hay que anotar lo que marca el contador total del surtidor; desde ahí, la app sigue sola.</div>
+
+</body>
+</html>
