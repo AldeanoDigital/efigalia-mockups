@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Mockup — avisos para la obra v1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --verde: #8BC463; --navy: #0e2540; --borde: #e5e7eb; --muted: #6b7280; --dimmed: #9ca3af;
+    --primary: #6ba03f; --primary-bg: #f0f7e8; --warning: #d97706; --warning-bg: #fef3c7;
+    --error: #dc2626; --success: #16a34a; --success-bg: #dcfce7; --info: #0284c7; --info-bg: #e0f2fe;
+    --sec: #7c3aed; --sec-bg: #f3e8ff;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #eef0f3; padding: 26px 18px 50px; color: #111827; }
+  h1 { font-size: 19px; color: var(--navy); text-align: center; margin-bottom: 4px; }
+  p.sub { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+  h2.paso { font-size: 14.5px; color: var(--navy); max-width: 1180px; margin: 30px auto 10px; border-bottom: 2px solid var(--verde); padding-bottom: 5px; }
+  .fila { max-width: 1180px; margin: 0 auto; display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+
+  .movil { width: 360px; background: #fff; border: 1px solid var(--borde); border-radius: 26px; box-shadow: 0 8px 22px rgb(0 0 0 / .09); overflow: hidden; }
+  .m-header { background: linear-gradient(100deg, #cfe9b8, #b7d9f4); padding: 19px 15px 13px; display: flex; align-items: center; gap: 10px; }
+  .m-header .back { font-size: 18px; color: var(--navy); }
+  .m-header h3 { font-size: 16.5px; font-weight: 800; color: var(--navy); }
+  .m-header .ref { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 12px; color: #334155; }
+  .m-body { padding: 12px 13px 16px; }
+  .etiq { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 700; margin: 14px 0 6px; }
+  .ayuda { font-size: 13px; color: var(--muted); margin-top: 5px; line-height: 1.45; }
+
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .opc { border: 1px solid var(--borde); border-radius: 12px; padding: 13px 8px; text-align: center; font-size: 15px; font-weight: 600; color: var(--muted); }
+  .opc .ic { font-size: 24px; display: block; margin-bottom: 4px; }
+  .opc.sel { border-color: var(--primary); background: var(--primary-bg); color: var(--navy); }
+  .campo { border: 1px solid var(--borde); border-radius: 12px; padding: 12px 13px; font-size: 15px; display: flex; align-items: center; gap: 9px; }
+  .campo .ph { color: var(--dimmed); }
+  .campo .fin { margin-left: auto; color: var(--muted); }
+  .campo.texto { min-height: 78px; align-items: flex-start; line-height: 1.45; }
+  .nuevo { outline: 2px dashed var(--primary); outline-offset: 3px; border-radius: 12px; }
+  .btn-block { margin-top: 14px; background: var(--primary); color: #fff; border-radius: 12px; padding: 14px; text-align: center; font-size: 16px; font-weight: 800; }
+
+  .aviso-obra { border: 1px solid #fcd9a0; background: var(--warning-bg); border-radius: 14px; padding: 12px 13px; margin-bottom: 10px; }
+  .aviso-obra .cab { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #92400e; }
+  .aviso-obra .txt { font-size: 15.5px; font-weight: 600; color: #1f2937; margin: 6px 0 4px; line-height: 1.4; }
+  .aviso-obra .meta { font-size: 12.5px; color: #78350f; }
+  .aviso-obra .acc { display: flex; gap: 8px; margin-top: 10px; }
+  .b { flex: 1; text-align: center; border-radius: 10px; padding: 10px 6px; font-size: 14px; font-weight: 800; }
+  .b.visto { background: #fff; border: 1px solid #f3c47a; color: #92400e; }
+  .b.hecho { background: var(--primary); color: #fff; }
+  .b.ya { background: #fff7e6; border: 1px solid #f3c47a; color: #92400e; font-weight: 600; }
+
+  .bloque { border: 1px solid var(--borde); border-radius: 14px; padding: 11px 13px; margin-bottom: 10px; }
+  .bloque .t { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 700; letter-spacing: .05em; }
+  .bloque .v { font-size: 15.5px; font-weight: 700; color: var(--navy); margin-top: 2px; }
+  .bloque .s { font-size: 13px; color: var(--muted); }
+
+  .item { border: 1px solid var(--borde); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+  .item.activo { border-left: 4px solid var(--warning); }
+  .item.cerrado { border-left: 4px solid var(--success); background: #fafafa; }
+  .item .txt { font-size: 15px; font-weight: 600; color: #1f2937; line-height: 1.35; }
+  .item .meta { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  .pill { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 11.5px; font-weight: 700; }
+  .pill.warn { background: var(--warning-bg); color: #92400e; }
+  .pill.ok { background: var(--success-bg); color: #166534; }
+  .vistos { font-size: 12.5px; color: #374151; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--borde); line-height: 1.5; }
+
+  /* escritorio */
+  .escritorio { width: 1060px; background: #fff; border: 1px solid var(--borde); border-radius: 12px; box-shadow: 0 8px 22px rgb(0 0 0 / .07); overflow: hidden; display: flex; }
+  .side { width: 200px; background: #f8fafc; border-right: 1px solid var(--borde); padding: 14px 12px; font-size: 13px; color: #374151; }
+  .side .logo { font-weight: 800; color: var(--navy); margin-bottom: 14px; }
+  .side div.l { padding: 6px 8px; border-radius: 8px; margin-bottom: 2px; }
+  .side div.l.act { background: var(--primary-bg); color: var(--navy); font-weight: 700; }
+  .main { flex: 1; }
+  .nav { border-bottom: 1px solid var(--borde); padding: 13px 18px; display: flex; align-items: center; gap: 10px; }
+  .nav h3 { font-size: 16px; color: var(--navy); }
+  .nav .ref { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 13px; color: var(--muted); }
+  .nav .estado { margin-left: 8px; }
+  .tabs { display: flex; gap: 18px; padding: 0 18px; border-bottom: 1px solid var(--borde); font-size: 13.5px; color: var(--muted); }
+  .tabs span { padding: 10px 0; }
+  .tabs span.act { color: var(--navy); font-weight: 700; border-bottom: 2px solid var(--primary); }
+  .cont { padding: 16px 18px; display: grid; grid-template-columns: 1fr 1.15fr; gap: 18px; }
+  .card { border: 1px solid var(--borde); border-radius: 12px; padding: 13px 15px; }
+  .card h4 { font-size: 14px; color: var(--navy); margin-bottom: 9px; display: flex; align-items: center; gap: 8px; }
+  .card h4 .mas { margin-left: auto; font-size: 12.5px; font-weight: 700; color: var(--primary); border: 1px solid var(--primary); border-radius: 8px; padding: 3px 9px; }
+  .dl { display: grid; grid-template-columns: 130px 1fr; gap: 6px 10px; font-size: 13.5px; }
+  .dl dt { color: var(--muted); }
+  .dl dd { color: #111827; margin: 0; }
+  .card .item .txt { font-size: 14px; }
+  .acc-esc { display: flex; gap: 6px; margin-top: 8px; }
+  .acc-esc span { font-size: 12.5px; font-weight: 700; border-radius: 8px; padding: 4px 10px; }
+  .acc-esc .h { background: var(--primary); color: #fff; }
+  .acc-esc .e { border: 1px solid var(--borde); color: #374151; }
+</style>
+</head>
+<body>
+<h1>Avisos para la obra — bocetos v1</h1>
+<p class="sub">Sin construir. Para la propuesta del 16-11-2026. Obra y personas de ejemplo.</p>
+
+<h2 class="paso">1 · Crear el aviso desde el móvil</h2>
+<div class="fila">
+  <div class="movil" id="cap-01-movil-crear">
+    <div class="m-header"><span class="back">←</span><h3>Nuevo recordatorio</h3></div>
+    <div class="m-body">
+      <p class="etiq">¿Para quién?</p>
+      <div class="dos">
+        <div class="opc"><span class="ic">👤</span>Para mí</div>
+        <div class="opc sel"><span class="ic">🏢</span>Para la obra</div>
+      </div>
+      <p class="ayuda">Lo verá quien vaya a la obra, los días que vaya, hasta que alguien lo marque como hecho o la obra termine.</p>
+      <p class="etiq">¿Qué obra?</p>
+      <div class="campo">🏢 <b>FV26-0712</b>&nbsp;· Casa Rivas Otero <span class="fin">▾</span></div>
+      <div class="nuevo">
+        <p class="etiq">Desde</p>
+        <div class="campo">📅 Hoy, lunes 16 de noviembre <span class="fin">▾</span></div>
+        <p class="etiq">Hasta (opcional)</p>
+        <div class="campo"><span class="ph">📅 Sin fecha de fin</span><span class="fin">▾</span></div>
+        <p class="ayuda">Sin fecha de fin, dura hasta que alguien lo marque como hecho o la obra termine.</p>
+      </div>
+      <p class="etiq">Anotaciones</p>
+      <div class="campo texto">No tocar el cuadro general: lo está revisando el electricista del cliente.</div>
+      <div class="btn-block">🔔 Crear recordatorio</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">2 · El instalador lo ve en su tarea, el día que va</h2>
+<div class="fila">
+  <div class="movil" id="cap-02-movil-tarea">
+    <div class="m-header"><span class="back">←</span><div><h3>Instalación de paneles</h3><div class="ref">FV26-0712 · Casa Rivas Otero</div></div></div>
+    <div class="m-body">
+      <div class="aviso-obra nuevo">
+        <div class="cab">⚠️ Aviso de la obra</div>
+        <p class="txt">No tocar el cuadro general: lo está revisando el electricista del cliente.</p>
+        <p class="meta">De Lucía (oficina) · desde el 16 nov · sin fecha de fin</p>
+        <div class="acc"><span class="b visto">👁 Visto</span><span class="b hecho">✓ Hecho</span></div>
+      </div>
+      <div class="bloque"><p class="t">Fecha</p><p class="v">Lunes 16 — miércoles 18 nov</p><p class="s">3 días</p></div>
+      <div class="bloque"><p class="t">Vehículo</p><p class="v">1234 LMN · Furgoneta 3</p><p class="s">Con Marcos y Andrés</p></div>
+      <div class="bloque"><p class="t">Dirección</p><p class="v">Rúa do Muíño 14, Ames</p><p class="s">Cómo llegar ›</p></div>
+    </div>
+  </div>
+  <div class="movil" id="cap-03-movil-tarea-visto">
+    <div class="m-header"><span class="back">←</span><div><h3>Instalación de paneles</h3><div class="ref">FV26-0712 · Casa Rivas Otero</div></div></div>
+    <div class="m-body">
+      <div class="aviso-obra">
+        <div class="cab">⚠️ Aviso de la obra</div>
+        <p class="txt">No tocar el cuadro general: lo está revisando el electricista del cliente.</p>
+        <p class="meta">De Lucía (oficina) · desde el 16 nov · sin fecha de fin</p>
+        <div class="acc"><span class="b ya">👁 Lo viste hoy a las 8:12</span><span class="b hecho">✓ Hecho</span></div>
+      </div>
+      <div class="bloque"><p class="t">Fecha</p><p class="v">Martes 17 nov · día 2 de 3</p><p class="s">Lunes 16 — miércoles 18 nov</p></div>
+      <div class="bloque"><p class="t">Vehículo</p><p class="v">1234 LMN · Furgoneta 3</p><p class="s">Con Marcos y Andrés</p></div>
+      <div class="bloque"><p class="t">Dirección</p><p class="v">Rúa do Muíño 14, Ames</p><p class="s">Cómo llegar ›</p></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">3 · En la obra del móvil: los avisos vivos y los cerrados</h2>
+<div class="fila">
+  <div class="movil" id="cap-04-movil-obra">
+    <div class="m-header"><span class="back">←</span><div><h3>Casa Rivas Otero</h3><div class="ref">FV26-0712 · En instalación</div></div></div>
+    <div class="m-body">
+      <div class="nuevo">
+        <p class="etiq">Avisos de la obra</p>
+        <div class="item activo">
+          <p class="txt">No tocar el cuadro general: lo está revisando el electricista del cliente.</p>
+          <p class="meta"><span class="pill warn">Vivo</span> · de Lucía · desde el 16 nov · sin fecha de fin</p>
+          <p class="vistos">👁 Visto por Marcos (16 nov, 8:05) · Andrés (16 nov, 8:20)</p>
+        </div>
+        <div class="item cerrado">
+          <p class="txt">Llamar al cliente antes de ir: deja la llave en el bar de enfrente.</p>
+          <p class="meta"><span class="pill ok">Hecho</span> · lo cerró Marcos el 12 nov a las 9:40</p>
+          <p class="vistos">👁 Visto por Marcos (12 nov) · Andrés (12 nov)</p>
+        </div>
+      </div>
+      <div class="bloque" style="margin-top:12px"><p class="t">Próxima tarea</p><p class="v">Instalación de paneles</p><p class="s">16 — 18 nov · Marcos, Andrés, Iván</p></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="paso">4 · En la ficha de la obra, en el escritorio</h2>
+<div class="fila">
+  <div class="escritorio" id="cap-05-escritorio-ficha">
+    <div class="side">
+      <div class="logo">EfigaliApp</div>
+      <div class="l">Inicio</div><div class="l act">Proyectos</div><div class="l">Tareas</div><div class="l">Partes</div><div class="l">Planificación</div><div class="l">Almacén</div>
+    </div>
+    <div class="main">
+      <div class="nav"><span class="ref">FV26-0712</span><h3>Casa Rivas Otero</h3><span class="pill warn estado">En instalación</span></div>
+      <div class="tabs"><span class="act">Resumen</span><span>Tareas</span><span>Partes</span><span>Material</span><span>Documentos</span><span>Estudios</span></div>
+      <div class="cont">
+        <div class="card">
+          <h4>Datos de la obra</h4>
+          <dl class="dl">
+            <dt>Cliente</dt><dd>Ana Rivas Otero</dd>
+            <dt>Dirección</dt><dd>Rúa do Muíño 14, Ames</dd>
+            <dt>Coordinador</dt><dd>Pablo</dd>
+            <dt>Potencia</dt><dd>6,15 kWp · batería 10 kWh</dd>
+            <dt>Firma</dt><dd>28 oct 2026</dd>
+          </dl>
+        </div>
+        <div class="card nuevo">
+          <h4>⚠️ Avisos de la obra <span class="mas">+ Nuevo aviso</span></h4>
+          <div class="item activo">
+            <p class="txt">No tocar el cuadro general: lo está revisando el electricista del cliente.</p>
+            <p class="meta"><span class="pill warn">Vivo</span> · de Lucía · desde el 16 nov · sin fecha de fin</p>
+            <p class="vistos">👁 Visto por Marcos (16 nov, 8:05) · Andrés (16 nov, 8:20) · sin ver: Iván</p>
+            <div class="acc-esc"><span class="h">✓ Marcar hecho</span><span class="e">Editar</span></div>
+          </div>
+          <div class="item cerrado">
+            <p class="txt">Llamar al cliente antes de ir: deja la llave en el bar de enfrente.</p>
+            <p class="meta"><span class="pill ok">Hecho</span> · lo cerró Marcos el 12 nov a las 9:40</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
